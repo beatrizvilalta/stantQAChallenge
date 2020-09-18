@@ -3,7 +3,6 @@ Feature: Period of life system
     I want to use the period of life system, 
     so that I can convert my age into a specific period of life. 
 
-
 Background: 
     Given the user entered an valid age 
 
@@ -22,7 +21,7 @@ Background:
         Then the user should see "ELDERLY" as result
     
 
-Scenario: Return invalid message
+Scenario Outline: Return invalid message
     Given the user entered an invalid age
     When the user’s input is equal to <invalid>
     Then the user should see an invalid message
