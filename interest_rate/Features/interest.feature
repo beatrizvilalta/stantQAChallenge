@@ -1,49 +1,50 @@
 Feature: Interest rate calculator
-    As a costumer, 
+    As a customer, 
     I would like to enter my deposit value and age, 
     so that I can calculate my anual interest rate.
 
-Background: Check if costumer is an adult 
-    Given the costumer entered his age
+Background: Check if customer is an adult 
+    Given the customer entered his age
 
-    Scenario: Costumer is not an adult
-        When the costumer's age is bellow 18
-        Then costumer is not allowed to make a deposit
+    Scenario: Customer is not an adult
+        When the customer's age is bellow 18
+        Then customer is not allowed to make a deposit
         And should receive an error message
 
-    Scenario: Costumer is an adult
-        When the costumer's age is equal to or above 18
-        Then costumer is allowed to make a deposit
+    Scenario: Customer is an adult
+        When the customer's age is equal to or above 18
+        Then customer is allowed to make a deposit
 
-Scenario Outline: Requested deposit value is not allowed
-    Given the costumer entered the deposit value
-    And the costumer is an adult
-    When the deposit value is <deposit_value>
-    Then the system shouldn't calculate the interest rate
-    And should return <message> message
+Background: Verify deposit value
+    Given the customer has a valid age
+    And the customer entered the deposit value
 
-Examples:
+    Scenario: Deposit value is bellow limit 
+        When the deposit value is bellow 100
+        Then the system shouldn't calculate the interest rate
+        And should return "Deposit bellow limit"
 
-    | deposit_value  |         message          | 
-    |       99       |  "deposit is below limit"| 
-    |     10001      | "deposit is above limit" |
+    Scenario: Deposit value is above limit
+        When the deposit value greater than 10000
+        Then the the system shouldn't calculate the interest rate
+        And should return "Deposit above limit"
 
-Scenario: Fixed rate due to age
-    Given the costumer is allowed to make a deposit 
-    When the costumer's age is greater or equal to 60
-    Then his deposit rate is 2.0%
+Background: Verify the interest rate
+    Given the customer entered a valid deposit value
 
-Scenario Outline: Return the interest rate value 
-    Given the costumer entered a valid deposit value
-    And the costumer is an adult
-    When the deposit value is greater or equal to <minimum>
-    And the deposit value is less than <maximum>
-    Then the system should return <rate> as interest rate
+    Scenario: Fixed rate due to age
+        When the customer's age is greater or equal to 60
+        Then his deposit rate is 2.0%
 
-Examples: 
+    Scenario Outline: Return the interest rate value 
+        When the deposit value is greater or equal to <minimum>
+        And the deposit value is less than <maximum>
+        Then the system should return <rate> as interest rate
 
-    | minimun | maximum | rate | 
-    | 100     | 999     | 1.0% |
-    | 1000    | 4999    | 1.3% |
-    | 5000    | 10000   | 1.5% | 
+    Examples: 
+
+        | minimun | maximum | rate | 
+        | 100     | 999     | 1.0% |
+        | 1000    | 4999    | 1.3% |
+        | 5000    | 10000   | 1.5% | 
 
