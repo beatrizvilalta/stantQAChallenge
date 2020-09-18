@@ -3,7 +3,6 @@ Feature: Create thermosthat controler
     I want a thermosthat controler,
     so that it can turn itself on and off acording to the temperature.
 
-
 Scenario: Turn on the thermosthat
     Given the thermosthat is off
     When the mesured temperature is less than 5°C
@@ -11,6 +10,6 @@ Scenario: Turn on the thermosthat
 
 Scenario: Turn off the thermosthat
     Given the thermosthat is on
-    When the mesured temperature is greater than or equal 23°C
+    When the mesured temperature is greater than or equal to 23°C
     Then the thermosthat should turn off
 
