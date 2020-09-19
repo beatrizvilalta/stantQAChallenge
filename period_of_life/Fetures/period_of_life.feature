@@ -20,7 +20,6 @@ Background:
         When the user's input is greater than 60
         Then the user should see "ELDERLY" as result
     
-
 Scenario Outline: Return invalid message
     Given the user entered an invalid age
     When the user’s input is equal to <invalid>
@@ -31,4 +30,4 @@ Examples:
     |    0    | 
     |   -3    | 
     |   -1    | 
-    |   one   | 
+

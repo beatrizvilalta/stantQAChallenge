@@ -25,7 +25,7 @@ Background: Verify deposit value
         And should return "Deposit bellow limit"
 
     Scenario: Deposit value is above limit
-        When the deposit value greater than 10000
+        When the deposit value is greater than 10000
         Then the the system shouldn't calculate the interest rate
         And should return "Deposit above limit"
 
