@@ -1,4 +1,4 @@
-require_relative "implementation"
+require_relative "../implementation/interest_implementation"
 
 Given('the customer age is {int}') do |age|   
   @calculator = Calculator.new()
