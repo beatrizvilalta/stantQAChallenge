@@ -23,10 +23,6 @@ cucumber
 ### Reports
 
 Every folder has one report.html where you can check the scenarios and their current state
-
-* [interest_rate](#)
-* [period_of_life](#)
-* [thermostat](#)
  
 
 
