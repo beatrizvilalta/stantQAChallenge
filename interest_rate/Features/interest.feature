@@ -1,50 +1,64 @@
+@interest_rate
 Feature: Interest rate calculator
     As a customer, 
     I would like to enter my deposit value and age, 
     so that I can calculate my anual interest rate.
 
-Background: Check if customer is an adult 
-    Given the customer entered his age
+Scenario Outline: Check if costumer is an adult 
+    Given the customer age is <age>
+    When the customer enters his age on the system 
+    Then the system should return <age_validation> 
+    
+Examples:
+    | age  | age_validation |      
+    | 15   | false      |  
+    | 17   | false      |  
+    | 18   | true       |  
+    | 19   | true       | 
 
-    Scenario: Customer is not an adult
-        When the customer's age is bellow 18
-        Then customer is not allowed to make a deposit
-        And should receive an error message
+Scenario: Verify deposit value is valid
+    Given the customer entered a <deposit_value>
+    When the system checks if the costumer is allowed to make a deposit
+    Then the system should return <deposit_validation> 
+Examples:
+    | deposit_value | deposit_validation| 
+    |      99       |      false        | 
+    |    10001      |      false        |
+    |    10000      |      true         |
+    |     100       |      true         |
 
-    Scenario: Customer is an adult
-        When the customer's age is equal to or above 18
-        Then customer is allowed to make a deposit
+Scenario: Return error message 
+    Given the costumer entered an <age>
+    And the costumer entered a <deposit_value>
+    When the age or the deposit value are not valid
+    Then return <error_message> message 
 
-Background: Verify deposit value
-    Given the customer has a valid age
-    And the customer entered the deposit value
+Examples:
+    | age | deposit_value |    error_message       |
+    | 15  |     2000      | "Age not valid"        |
+    | 20  |     12000     | "Deposit not valid"  |
+    | 50  |      70       | "Deposit not valid" |
+    
 
-    Scenario: Deposit value is bellow limit 
-        When the deposit value is bellow 100
-        Then the system shouldn't calculate the interest rate
-        And should return "Deposit bellow limit"
 
-    Scenario: Deposit value is above limit
-        When the deposit value is greater than 10000
-        Then the the system shouldn't calculate the interest rate
-        And should return "Deposit above limit"
+Scenario: Fixed rate due to age
+    Given the customer age is greater or equal to 60
+    And his deposit value is valid
+    When the system checks his rate
+    Then the system should return 2.0% as interest rate
 
-Background: Verify the interest rate
+Scenario Outline: Return the interest rate value 
     Given the customer entered a valid deposit value
+    When the <deposit_value> is rated
+    Then the system should return <rate> as interest rate
 
-    Scenario: Fixed rate due to age
-        When the customer's age is greater or equal to 60
-        Then his deposit rate is 2.0%
-
-    Scenario Outline: Return the interest rate value 
-        When the deposit value is greater or equal to <minimum>
-        And the deposit value is less than <maximum>
-        Then the system should return <rate> as interest rate
-
-    Examples: 
-
-        | minimun | maximum | rate | 
-        | 100     | 999     | 1.0% |
-        | 1000    | 4999    | 1.3% |
-        | 5000    | 10000   | 1.5% | 
+Examples: 
+    | deposit_value | rate | 
+    |      600      | 1.0% |
+    |      999      | 1.0% |
+    |     1000      | 1.3% |
+    |     2000      | 1.3% |
+    |     4999      | 1.3% |
+    |     5000      | 1.5% |
+    |     10000     | 1.5% |
 

@@ -1,3 +1,4 @@
+@period_of_life
 Feature: Period of life function
     As a developer, 
     I want to create the period of life function, 
